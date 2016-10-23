@@ -1,0 +1,13 @@
+{
+  "name": "zeromqing",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ramda": "^0.22.1",
+    "vorpal": "^1.11.4",
+    "zmq": "^2.15.3"
+  }
+}
