@@ -1,0 +1,17 @@
+{
+  "channels": [
+    {
+      "tag_send": "borromini_bernini",
+      "address_send": "tcp://127.0.0.1:3001",
+      "tag_receive": "bernini_borromini",
+      "address_receive": "tcp://127.0.0.1:3000"
+    },
+    {
+      "tag_send": "borromini_baldinucci",
+      "address_send": "tcp://127.0.0.1:3004",
+      "tag_receive": "baldinucci_borromini",
+      "address_receive": "tcp://127.0.0.1:3005"
+    }
+  ],
+  "messages": []
+}

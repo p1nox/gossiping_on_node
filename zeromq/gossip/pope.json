@@ -1,0 +1,11 @@
+{
+  "channels": [
+    {
+      "tag_send": "pope_bernini",
+      "address_send": "tcp://127.0.0.1:7001",
+      "tag_receive": "bernini_pope",
+      "address_receive": "tcp://127.0.0.1:7002"
+    }
+  ],
+  "messages": []
+}

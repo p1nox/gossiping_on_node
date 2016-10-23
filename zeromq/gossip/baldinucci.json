@@ -1,0 +1,20 @@
+{
+  "role": "gossiper",
+  "channels": [
+    {
+      "tag_send": "baldinucci_bernini",
+      "address_send": "tcp://127.0.0.1:3003",
+      "tag_receive": "bernini_baldinucci",
+      "address_receive": "tcp://127.0.0.1:3002"
+    },
+    {
+      "tag_send": "baldinucci_borromini",
+      "address_send": "tcp://127.0.0.1:3005",
+      "tag_receive": "borromini_baldinucci",
+      "address_receive": "tcp://127.0.0.1:3004"
+    }
+  ],
+  "messages": {
+    "What Shakespeare is to drama, Bernini may be to sculpture...": 1
+  }
+}
