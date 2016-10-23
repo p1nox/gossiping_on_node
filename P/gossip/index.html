@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Node</title>
+  </head>
+  <body>
+    <button type="button" name="button">Init as Multicast sender</button>
+    <p>Connected Nodes:</p>
+    <ul class="connected"></ul>
+    <p>Infected Nodes:</p>
+    <ul class="infected"></ul>
+    <p class="spreaded" style="display:none;">Messages spreaded!</p>
+
+    <script src="../node_modules/internet/dist/p.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/ramda/dist/ramda.js"></script>
+    <script>
+    $(function() {
+      var p = P.create(),
+          onrampServerAddress = 'ws://127.0.0.1:20500/',
+          onrampServer = p.connect(onrampServerAddress),
+          betaPeers = 2,
+          peers = [],
+          isMulticastSender = false,
+          messages = {},
+          acks = {}
+          DA_MESSAGE = 'DAMSG';
+
+      onrampServer.on('message', function(peerAddress){
+        var peer = onrampServer.connect(peerAddress);
+
+        peer.on('open', function(){
+          console.log('connected to', peer.address);
+          renderConnected(peer.address);
+          peers.push(peer);
+        });
+      });
+
+      onrampServer.on('connection', function(peer){
+        peer.on('message', function(message){
+          console.log('message "' + message + '" from', peer.address);
+          renderACK(peer.address);
+          if (messages[message] || isMulticastSender) {
+            return ;
+          }
+
+          messages[message] = 1;
+          disableBtn();
+          gossipMessage(message);
+        });
+      });
+
+      $('button').click(function() {
+        isMulticastSender = true;
+        disableBtn();
+
+        gossipMessage(DA_MESSAGE);
+      });
+
+      function gossipMessage(msg) {
+        setInterval(function(){
+          R.times(function() {
+            var randomPeerNumber = getRandomInt(0, peers.length),
+                targetPeer = peers[randomPeerNumber];
+
+            console.log('gossiping message', msg, randomPeerNumber, peers);
+            targetPeer.send(msg);
+          }, betaPeers);
+        }, 2000);
+      }
+
+      function renderACK(address) {
+        if (acks[address]) {
+          return ;
+        }
+
+        acks[address] = 1;
+        if (R.keys(acks).length <= R.keys(peers).length) {
+          $('.infected').append('<li>' + address + '</li>');
+        }
+        if (R.keys(acks).length >= R.keys(peers).length) {
+          $('.spreaded').show();
+        }
+      }
+
+      function renderConnected(address) {
+        $('.connected').append('<li>' + address + '</li>');
+      }
+
+      function disableBtn() {
+        $('button')
+        .prop('disabled', true)
+        .html('Gossiping started!');
+      }
+
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+    });
+    </script>
+  </body>
+</html>
