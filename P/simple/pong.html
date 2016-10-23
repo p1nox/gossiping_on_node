@@ -1,0 +1,23 @@
+<!doctype html><title>Pong!</title>
+
+<script src="../node_modules/internet/dist/p.js"></script>
+<script>
+// 1. Create the root node of P
+var p = P.create();
+
+// 2. Connect to a WebSocket server
+var onrampServer = p.connect('ws://localhost:20500/');
+
+// 3. Await a peer to connect to this browser
+onrampServer.on('connection', function(peer){
+
+  // 4. Whenever a peer sends a message, respond
+  //    with a "pong!"
+  peer.on('message', function(message){
+    setTimeout(function(){
+      console.log('from peer: ' + message);
+      peer.send('pong!');
+    }, 1000);
+  });
+});
+</script>

@@ -1,0 +1,15 @@
+{
+  "name": "pe",
+  "version": "0.1.0",
+  "scripts": {
+    "onramp": "node_modules/.bin/onramp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "internet": "^0.3.3",
+    "jquery": "^3.1.1",
+    "onramp": "^0.3.1",
+    "ramda": "^0.22.1"
+  }
+}

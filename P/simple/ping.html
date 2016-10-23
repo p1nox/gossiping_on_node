@@ -1,0 +1,29 @@
+<!doctype html><title>Ping?</title>
+
+<script src="../node_modules/internet/dist/p.js"></script>
+<script>
+// 1. Create the root node of P
+var p = P.create();
+
+// 2. Connect to a WebSocket server
+var onrampServer = p.connect('ws://localhost:20500/');
+
+onrampServer.on('message', function(peerAddress){
+  // 3. Connect to another browser which is
+  //    connected to the WebSocket server
+  var peer = onrampServer.connect(peerAddress);
+
+  // 4. When the connection opens, send a "ping?"
+  peer.on('open', function(){
+    peer.send('ping?');
+  });
+
+  // 5. When the peer replies send another "ping?"
+  peer.on('message', function(message){
+    setTimeout(function(){
+      console.log('from peer: ' + message);
+      peer.send('ping?');
+    }, 1000);
+  });
+});
+</script>
